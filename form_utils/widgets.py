@@ -18,15 +18,9 @@ from django.utils.functional import curry
 from django.utils.safestring import mark_safe
 from django.core.files.uploadedfile import SimpleUploadedFile as UploadedFile
 
-try:
-    from sorl.thumbnail.main import DjangoThumbnail
-    def thumbnail(image_path):
-        t = DjangoThumbnail(relative_source=image_path, requested_size=(200,200))
-        return u'<img src="%s" alt="%s" />' % (t.absolute_url, image_path)
-except ImportError:
-    def thumbnail(image_path):
-        absolute_url = posixpath.join(settings.MEDIA_URL, image_path)
-        return u'<img src="%s" alt="%s" />' % (absolute_url, image_path)
+def thumbnail(image_path):
+    absolute_url = posixpath.join(settings.MEDIA_URL, image_path)
+    return u'<img src="%s" alt="%s" />' % (absolute_url, image_path)
 
 class ImageWidget(forms.FileInput):
     template = '%(input)s<br />%(image)s'
