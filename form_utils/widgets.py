@@ -62,7 +62,7 @@ class ClearableFileInput(forms.MultiWidget):
         return [value, None]
 
     def format_output(self, rendered_widgets):
-        if self.value:
+        if getattr(self, 'value', None):
             return self.template % {'input': rendered_widgets[0],
                                     'checkbox': rendered_widgets[1]}
         return rendered_widgets[0]
